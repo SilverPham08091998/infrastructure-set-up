@@ -1,0 +1,17 @@
+apm-server:
+  api_key: "VlZWT1I0c0JNQ0lNbGJWMjJiN1Y6RG9CUHk2WmZRN0tBR0hrakE1MG4wUQ=="
+  host: "0.0.0.0:8200"
+  ssl:
+    enabled: false
+  rum:
+    enabled: true
+
+output.elasticsearch:
+  hosts: [ http://elasticsearch:9200 ]
+  username: elastic
+  password: ${ELASTIC_PASSWORD}
+
+setup.kibana:
+  host: "kibana:5601"
+  username: kibana_system
+  password: ${KIBANA_SYSTEM_PASSWORD}
