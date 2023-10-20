@@ -1,0 +1,3 @@
+ARG CADVISOR_VERSION
+
+FROM gcr.io/cadvisor/cadvisor:${CADVISOR_VERSION}

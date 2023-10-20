@@ -1,20 +1,21 @@
-version: '2.1'
-
+version: '1.0'
 networks:
   monitor-net:
     driver: bridge
 
 volumes:
-    prometheus_data: {}
-    grafana_data: {}
+  prometheus_data: { }
+  grafana_data: { }
 
 services:
-
   prometheus:
-    image: prom/prometheus:v2.46.0
+    build:
+      context: prometheus/
+      args:
+        PROMETHEUS_VERSION: ${PROMETHEUS_VERSION}
     container_name: prometheus
     volumes:
-      - ./prometheus:/etc/prometheus
+      - ./prometheus/config:/etc/prometheus
       - prometheus_data:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
@@ -32,13 +33,16 @@ services:
       org.label-schema.group: "monitoring"
 
   alertmanager:
-    image: prom/alertmanager:v0.25.0
-    container_name: alertmanager
+    build:
+      context: alertmanager/
+      args:
+        ALERT_MANAGER_VERSION: ${ALERT_MANAGER_VERSION}
+    container_name: alert_manager
     volumes:
-      - ./alertmanager:/etc/alertmanager
+      - ./alertmanager/config:/etc/alertmanager
     command:
       - '--config.file=/etc/alertmanager/config.yml'
-      - '--storage.path=/alertmanager'
+      - '--storage.path=/alertmanager/config'
     restart: unless-stopped
     expose:
       - 9093
@@ -48,8 +52,11 @@ services:
       org.label-schema.group: "monitoring"
 
   nodeexporter:
-    image: prom/node-exporter:v1.6.1
-    container_name: nodeexporter
+    build:
+      context: nodeexporter/
+      args:
+        NODE_EXPORTER_VERSION: ${NODE_EXPORTER_VERSION}
+    container_name: node_exporter
     volumes:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
@@ -68,7 +75,10 @@ services:
       org.label-schema.group: "monitoring"
 
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor:v0.47.1
+    build:
+      context: cadvisor/
+      args:
+        CADVISOR_VERSION: ${CADVISOR_VERSION}
     container_name: cadvisor
     privileged: true
     devices:
@@ -78,6 +88,7 @@ services:
       - /var/run:/var/run:ro
       - /sys:/sys:ro
       - /var/lib/docker:/var/lib/docker:ro
+      - /var/run/docker.sock:/var/run/docker.sock
       #- /cgroup:/cgroup:ro #doesn't work on MacOS only for Linux
     restart: unless-stopped
     expose:
@@ -88,12 +99,15 @@ services:
       org.label-schema.group: "monitoring"
 
   grafana:
-    image: grafana/grafana:10.0.3
+    build:
+      context: grafana/
+      args:
+        GRAFANA_VERSION: ${GRAFANA_VERSION}
     container_name: grafana
     volumes:
       - grafana_data:/var/lib/grafana
-      - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
-      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+      - ./grafana/config/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+      - ./grafana/config/provisioning/datasources:/etc/grafana/provisioning/datasources
     environment:
       - GF_SECURITY_ADMIN_USER=${ADMIN_USER:-admin}
       - GF_SECURITY_ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
@@ -107,8 +121,11 @@ services:
       org.label-schema.group: "monitoring"
 
   pushgateway:
-    image: prom/pushgateway:v1.6.0
-    container_name: pushgateway
+    build:
+      context: pushgateway/
+      args:
+        PUSH_GATEWAY_VERSION: ${PUSH_GATEWAY_VERSION}
+    container_name: push_gateway
     restart: unless-stopped
     expose:
       - 9091
@@ -118,16 +135,19 @@ services:
       org.label-schema.group: "monitoring"
 
   caddy:
-    image: caddy:2.6.4
+    build:
+      context: caddy/
+      args:
+        CADDY_VERSION: ${CADDY_VERSION}
     container_name: caddy
     ports:
       - "3000:3000"
-      - "8080:8080"
+      - "9092:8080"
       - "9090:9090"
       - "9093:9093"
       - "9091:9091"
     volumes:
-      - ./caddy:/etc/caddy
+      - ./caddy/config:/etc/caddy
     environment:
       - ADMIN_USER=${ADMIN_USER:-admin}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
