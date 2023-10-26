@@ -1,0 +1,18 @@
+version: '1.0'
+services:
+  consul:
+    build:
+      context: consul/
+      args:
+        CONSUL_VERSION: ${CONSUL_VERSION}
+    container_name: consul
+    ports:
+      - "8500:8500"
+    command: 'agent -server -bootstrap-expect=1 -ui -bind=0.0.0.0 -client=0.0.0.0'
+    networks:
+      - consul-network
+    volumes:
+      - /consul/data
+networks:
+  consul-network:
+    driver: bridge

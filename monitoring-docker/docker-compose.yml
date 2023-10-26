@@ -142,10 +142,10 @@ services:
     container_name: caddy
     ports:
       - "3000:3000"
-      - "9092:8080"
+      - "3092:8080"
       - "9090:9090"
-      - "9093:9093"
-      - "9091:9091"
+      - "3093:9093"
+      - "3091:9091"
     volumes:
       - ./caddy/config:/etc/caddy
     environment:

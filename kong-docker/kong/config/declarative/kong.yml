@@ -6,16 +6,16 @@ consumers:
   - username: SilverPham
     custom_id: SilverPham
     tags:
-      - admin
+      - "[admin]"
     keyauth_credentials:
       - key: Spt3YHkVlg9dyViu4bPPnsyhrxNlwIiH
         ttl: 0
         tags:
-          - admin
+          - "[admin]"
     acls:
       - group: SilverPham
         tags:
-          - admin
+          - "[admin]"
   # Cấu hình các plugins
 plugins:
   # Cấu hình authenciation gateway
@@ -39,7 +39,7 @@ plugins:
   - name: acl
     enabled: true
     tags:
-      - external-api
+      - "[external-api]"
     protocols:
       - http
       - https
@@ -51,7 +51,7 @@ plugins:
   # Cấu hình cache của request response
   - name: proxy-cache
     tags:
-      - "[admin]"
+      - "[external-api]"
     protocols:
       - grpc
       - grpcs
@@ -82,7 +82,7 @@ plugins:
   - name: rate-limiting
     enabled: true
     tags:
-      - external-api
+      - "[external-api]"
     protocols:
       - http
       - https
@@ -114,7 +114,7 @@ plugins:
   - name: ip-restriction
     enabled: true
     tags:
-      - external-api
+      - "[external-api]"
     protocols:
       - http
       - https
@@ -128,7 +128,7 @@ plugins:
   - name: prometheus
     enabled: true
     tags:
-      - external-api
+      - "[external-api]"
     protocols:
       - http
       - https
@@ -142,7 +142,7 @@ plugins:
   - name: tcp-log
     enabled: true
     tags:
-      - external-api
+      - "[external-api]"
     protocols:
       - http
       - https
@@ -164,7 +164,7 @@ services:
     retries: 5
     write_timeout: 60000
     tags:
-      - external-api
+      - "[external-api]"
     routes:
       - name: external-route
         paths:
@@ -180,7 +180,7 @@ services:
         https_redirect_status_code: 426
         path_handling: v0
         tags:
-          - external-api
+          - "[external-api]"
 upstreams:
   - name: external-api-upstream
     hash_on: none
@@ -249,12 +249,12 @@ upstreams:
     algorithm: round-robin
     slots: 5000
     tags:
-      - external-api
+      - "[external-api]"
     host_header: external-api-upstream
     targets:
       - target: 10.91.10.38:8080
         tags:
-          - external-api
+          - "[external-api]"
         weight: 100
 
 
