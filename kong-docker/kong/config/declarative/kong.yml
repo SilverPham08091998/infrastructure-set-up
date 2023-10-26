@@ -173,8 +173,12 @@ services:
           - http
           - https
         regex_priority: 0
-        strip_path: false
+        strip_path: true
         preserve_host: false
+        request_buffering: true
+        response_buffering: true
+        https_redirect_status_code: 426
+        path_handling: v0
         tags:
           - external-api
 upstreams:
