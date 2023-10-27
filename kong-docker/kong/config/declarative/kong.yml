@@ -106,7 +106,7 @@ plugins:
       fault_tolerant: true
       minute:
       hour:
-      day: 1
+      day: 100000
       month:
       year:
       redis_ssl: false
@@ -152,6 +152,8 @@ plugins:
       timeout: 10000
       keepalive: 60000
       tls: false
+      custom_fields_by_lua:
+        app_name: app_name =  kong
 # Cấu hình các Services và Routes
 services:
   - name: mobile-shopping-api
@@ -184,7 +186,7 @@ services:
 upstreams:
   - name: external-api-upstream
     hash_on: none
-    hash_on_cookie_path: "/"
+    hash_on_cookie_path: /
     healthchecks:
       threshold: 0
       passive:
@@ -222,7 +224,7 @@ upstreams:
       active:
         healthy:
           successes: 5
-          interval: 5
+          interval: 100
           http_statuses:
             - 200
             - 302
@@ -236,12 +238,12 @@ upstreams:
             - 503
             - 504
             - 505
-          interval: 5
+          interval: 100
           tcp_failures: 0
           timeouts: 0
           http_failures: 5
         concurrency: 10
-        http_path: "/"
+        http_path: /actuator/health
         timeout: 1
         type: http
         https_verify_certificate: true
