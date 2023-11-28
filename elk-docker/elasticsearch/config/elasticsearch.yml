@@ -8,4 +8,4 @@ node.name: docker-node
 ## X-Pack settings
 ## see https://www.elastic.co/guide/en/elasticsearch/reference/current/security-settings.html
 #
-xpack.security.enabled: true
+xpack.security.enabled: false
