@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  product-service:
+    build: ./product-service
+    container_name: product-service
+    ports:
+      - "9009:9009"
+  envoy:
+    image: envoyproxy/envoy:v1.27.0
+    container_name: envoy
+    volumes:
+      - ./envoy/envoy.yaml:/etc/envoy/envoy.yaml
+      - /var/log/envoy:/var/log/envoy
+    ports:
+      - "10000:10000"
+      - "9009:9009"
+    depends_on:
+      - product-service
