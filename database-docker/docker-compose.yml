@@ -12,3 +12,25 @@ services:
       - "3306:3306"                       # Exposes MySQL port
     volumes:
       - ./mysql_data:/var/lib/mysql       # Persist data on local storage
+  redis:
+    image: redis/redis-stack:latest
+    container_name: redis
+    restart: always
+    ports:
+      - "6379:6379"
+    command: redis-server --protected-mode no --bind 0.0.0.0
+    volumes:
+      - ./redis_data:/data
+  nexus:
+    image: sonatype/nexus3:latest
+    container_name: nexus
+    restart: always
+    ports:
+      - "8081:8081"
+      - "8082:8082" # (Nếu cần cho proxy repository)
+    volumes:
+      - ./nexus-data:/nexus-data
+volumes:
+  mysql_data:
+  redis_data:
+  nexus-data:

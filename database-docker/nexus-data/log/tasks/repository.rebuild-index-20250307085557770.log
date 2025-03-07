@@ -1,0 +1,8 @@
+2025-03-07 08:55:57,771+0000 INFO  [quartz-7-thread-5]  *TASK org.sonatype.nexus.repository.search.index.RebuildIndexTask - Task information:
+2025-03-07 08:55:57,784+0000 INFO  [quartz-7-thread-5]  *TASK org.sonatype.nexus.repository.search.index.RebuildIndexTask -  ID: 00490aaa-7ca3-4a29-ab5e-ace192d92d20
+2025-03-07 08:55:57,784+0000 INFO  [quartz-7-thread-5]  *TASK org.sonatype.nexus.repository.search.index.RebuildIndexTask -  Type: repository.rebuild-index
+2025-03-07 08:55:57,784+0000 INFO  [quartz-7-thread-5]  *TASK org.sonatype.nexus.repository.search.index.RebuildIndexTask -  Name: Repair - Rebuild repository search
+2025-03-07 08:55:57,784+0000 INFO  [quartz-7-thread-5]  *TASK org.sonatype.nexus.repository.search.index.RebuildIndexTask -  Description: Rebuilding search index of docker-hosted
+2025-03-07 08:55:57,785+0000 INFO  [quartz-7-thread-5]  *TASK org.sonatype.nexus.repository.search.index.RebuildIndexTask - Task configuration: {.updated=2025-03-07T08:55:57.730Z, .name=Repair - Rebuild repository search, .recoverable=false, .message=Rebuilding search index of docker-hosted, .id=00490aaa-7ca3-4a29-ab5e-ace192d92d20, .typeName=Repair - Rebuild repository search, .visible=true, repositoryName=docker-hosted, .typeId=repository.rebuild-index, .exposed=true, .created=2025-03-07T08:55:57.730Z}
+2025-03-07 08:55:57,790+0000 INFO  [quartz-7-thread-5]  *TASK org.sonatype.nexus.repository.content.search.elasticsearch.SearchFacetImpl - Rebuilding index of repository docker-hosted
+2025-03-07 08:55:57,851+0000 INFO  [quartz-7-thread-5]  *TASK org.sonatype.nexus.repository.search.index.RebuildIndexTask - Task complete
