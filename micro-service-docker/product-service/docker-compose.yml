@@ -1,19 +1,73 @@
-version: "3.8"
+version: '3.8'
 
 services:
-  product-service:
-    build: ./product-service
-    container_name: product-service
-    ports:
-      - "9009:9009"
-  envoy:
-    image: envoyproxy/envoy:v1.27.0
-    container_name: envoy
+  product-service-1:
+    container_name: product-service-1
+    image: silverpham/product-service:1.0.0
+    privileged: true
+    networks:
+      envoy_network:
+        aliases:
+          - product-service
+
+  product-service-1-envoy:
+    image: envoyproxy/envoy:v1.29.2
+    container_name: product-service-1-envoy
     volumes:
-      - ./envoy/envoy.yaml:/etc/envoy/envoy.yaml
-      - /var/log/envoy:/var/log/envoy
+      - ./envoy/envoy-1.yaml:/etc/envoy/envoy.yaml
+      - ./envoy/logs:/var/log/envoy
     ports:
-      - "10000:10000"
-      - "9009:9009"
+      - "10009:10009"
+      - "19009:19009"
+    networks:
+      - envoy_network
     depends_on:
-      - product-service
+      - product-service-1
+
+  product-service-2:
+    container_name: product-service-2
+    image: silverpham/product-service:1.0.0
+    privileged: true
+    networks:
+      envoy_network:
+        aliases:
+          - product-service
+
+  product-service-2-envoy:
+    image: envoyproxy/envoy:v1.29.2
+    container_name: product-service-2-envoy
+    volumes:
+      - ./envoy/envoy-2.yaml:/etc/envoy/envoy.yaml
+      - ./envoy/logs:/var/log/envoy
+    ports:
+      - "20009:20009"
+      - "29009:29009"
+    networks:
+      - envoy_network
+    depends_on:
+      - product-service-2
+
+  product-service-3:
+    container_name: product-service-3
+    image: silverpham/product-service:1.0.0
+    privileged: true
+    networks:
+      envoy_network:
+        aliases:
+          - product-service
+  product-service-3-envoy:
+    image: envoyproxy/envoy:v1.29.2
+    container_name: product-service-3-envoy
+    volumes:
+      - ./envoy/envoy-3.yaml:/etc/envoy/envoy.yaml
+      - ./envoy/logs:/var/log/envoy
+    ports:
+      - "30009:30009"
+      - "39009:39009"
+    networks:
+      - envoy_network
+    depends_on:
+      - product-service-3
+
+networks:
+  envoy_network:
