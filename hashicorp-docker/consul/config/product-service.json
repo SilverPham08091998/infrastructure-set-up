@@ -1,0 +1,31 @@
+{
+  "services": [
+    {
+      "name": "product-service",
+      "id": "product-service-1",
+      "port": 9009,
+      "connect": {
+        "sidecar_service": {}
+      }
+    },
+    {
+      "name": "product-service-1-sidecar-proxy",
+      "port": 10009,
+      "address": "10.91.10.38",
+      "kind": "connect-proxy",
+      "checks": [
+        {
+          "name": "Connect Sidecar Listening",
+          "tcp": "10.91.10.38:10009",
+          "interval": "10s"
+        }
+      ],
+      "proxy": {
+        "destination_service_name": "product-service",
+        "destination_service_id": "product-service-1",
+        "local_service_address": "0.0.0.0",
+        "local_service_port": 9009
+      }
+    }
+  ]
+}

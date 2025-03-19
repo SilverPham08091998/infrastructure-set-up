@@ -119,8 +119,8 @@ static_resources:
               - endpoint:
                   address:
                     socket_address:
-                      address: 10.91.10.38
-                      port_value: 8500
+                      address: product-service-3
+                      port_value: 9009
 admin:
   access_log_path: "/var/log/envoy/admin.log"
   address:

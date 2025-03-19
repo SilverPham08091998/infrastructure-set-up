@@ -6,9 +6,8 @@ services:
     image: silverpham/product-service:1.0.0
     privileged: true
     networks:
-      envoy_network:
-        aliases:
-          - product-service
+      - shopping_network
+
 
   product-service-1-envoy:
     image: envoyproxy/envoy:v1.29.2
@@ -20,7 +19,7 @@ services:
       - "10009:10009"
       - "19009:19009"
     networks:
-      - envoy_network
+      - shopping_network
     depends_on:
       - product-service-1
 
@@ -29,9 +28,7 @@ services:
     image: silverpham/product-service:1.0.0
     privileged: true
     networks:
-      envoy_network:
-        aliases:
-          - product-service
+      - shopping_network
 
   product-service-2-envoy:
     image: envoyproxy/envoy:v1.29.2
@@ -43,7 +40,7 @@ services:
       - "20009:20009"
       - "29009:29009"
     networks:
-      - envoy_network
+      - shopping_network
     depends_on:
       - product-service-2
 
@@ -52,9 +49,8 @@ services:
     image: silverpham/product-service:1.0.0
     privileged: true
     networks:
-      envoy_network:
-        aliases:
-          - product-service
+      - shopping_network
+
   product-service-3-envoy:
     image: envoyproxy/envoy:v1.29.2
     container_name: product-service-3-envoy
@@ -65,9 +61,10 @@ services:
       - "30009:30009"
       - "39009:39009"
     networks:
-      - envoy_network
+      - shopping_network
     depends_on:
       - product-service-3
 
 networks:
-  envoy_network:
+  shopping_network:
+    external: true

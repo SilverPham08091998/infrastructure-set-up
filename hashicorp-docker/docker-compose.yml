@@ -10,18 +10,10 @@ services:
       - "8500:8500"
     command: 'agent -server -bootstrap-expect=1 -ui -bind=0.0.0.0 -client=0.0.0.0'
     networks:
-      - consul-network
+      - shopping_network
     volumes:
       - /consul/data
+      - ./consul/config:/consul/config
 networks:
-  consul-network:
-    driver: bridge
-
-
-    docker run -d --name mobile-shopping-api \
-    --network consul-network \
-    -p 8080:8080 \
-    -e SPRING_CLOUD_CONSUL_HOST=10.91.10.38 \
-    -e SPRING_CLOUD_CONSUL_PORT=8500 \
-    -e HOST_IP=$(hostname -I | awk '{print $1}') \
-    silverpham/mobile-shopping-api:1.0.0
+  shopping_network:
+    external: true
